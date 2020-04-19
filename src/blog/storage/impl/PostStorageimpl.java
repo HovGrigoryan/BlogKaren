@@ -62,5 +62,5 @@ public class PostStorageimpl implements PostStorage {
         }
         System.out.println("----------------------------");
 
-    }
+        }
 }

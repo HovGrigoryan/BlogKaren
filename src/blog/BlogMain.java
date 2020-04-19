@@ -1,8 +1,11 @@
 package blog;
 
+import blog.exception.UserNotFoundException;
 import blog.model.Post;
+import blog.model.User;
 import blog.storage.PostStorage;
 import blog.storage.impl.PostStorageimpl;
+import blog.storage.impl.UserStorageimpl;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -10,26 +13,28 @@ import java.util.Scanner;
 public class BlogMain implements Commands {
     private static final PostStorage POST_STORAGE = new PostStorageimpl();
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final UserStorageimpl USER_STORAGE = new UserStorageimpl();
 
     public static void main(String[] args) {
         boolean isRun = true;
         while (isRun) {
             POST_STORAGE.printAllposts();
-            printCommands();
+            Commands.prinmainCommands();
             String commandStr = SCANNER.nextLine();
             int command;
             try {
                 command = Integer.parseInt(commandStr);
             } catch (NumberFormatException e) {
                 command = -1;
-
             }
             switch (command) {
                 case EXIT:
                     isRun = false;
                     break;
-                case ADD_POST:
-                    addpost();
+                case REGISTER:
+                    register();
+                case LOGIN:
+                    login();
                     break;
                 case SEACRH_POST:
                     searchPost();
@@ -43,6 +48,62 @@ public class BlogMain implements Commands {
 
         }
 
+    }
+
+    private static void login()  {
+        System.out.println("Please Input email,password");
+        try {
+            String userlog = SCANNER.nextLine();
+            String userlg[] = userlog.split(",");
+            User currenUser = USER_STORAGE.getUserByEmailandByPassword(userlg[0], userlg[1]);
+            boolean isRun = true;
+            while (isRun) {
+                POST_STORAGE.printAllposts();
+                Commands.printAfterLoginCommands();
+                String commandStr = SCANNER.nextLine();
+                int command;
+                try {
+                    command = Integer.parseInt(commandStr);
+                } catch (NumberFormatException e) {
+                    command = -1;
+                }
+                switch (command) {
+                    case LOGOUT:
+                        isRun = false;
+                        break;
+                    case ADD_POST:
+                        addpost();
+                    default:
+                        System.out.println("Invalid Command,please try again");
+
+                }
+            }
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("please Register");
+            login();
+        }
+
+    }
+
+
+
+    private static void register() {
+        System.out.println("please Input name,surname,mail,password ");
+        String userstr = SCANNER.nextLine();
+        String userData[] = userstr.split(",");
+        User user = new User();
+        user.setName(userData[0]);
+        user.setSurname(userData[1]);
+        user.setEmail(userData[2]);
+        user.setPassword(userData[3]);
+        try {
+            USER_STORAGE.getUserByEmail(userData[3]);
+            System.out.println("Email already Exist");
+        } catch (UserNotFoundException e) {
+            USER_STORAGE.addUser(user);
+            System.out.println("Thank you!");
+        }
     }
 
     private static void postsByCategory() {
@@ -77,10 +138,5 @@ public class BlogMain implements Commands {
 
     }
 
-    private static void printCommands() {
-        System.out.println("Please enter " + EXIT + " For EXIT");
-        System.out.println("Please enter " + ADD_POST + " For ADD_POST");
-        System.out.println("Please enter " + SEACRH_POST + " For SEACRH_POST");
-        System.out.println("Please enter " + POSTS_BY_CATEGORY + " POSTS_BY_CATEGORY");
-    }
+
 }
