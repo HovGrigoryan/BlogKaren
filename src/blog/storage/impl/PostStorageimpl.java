@@ -5,20 +5,31 @@ import blog.model.Post;
 import blog.storage.PostStorage;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PostStorageimpl<T> implements PostStorage<T> {
+public class PostStorageimpl implements PostStorage {
 
-    ArrayList<Post> posts = new ArrayList<>();
+    private List<Post> posts;
 
-    public void addPost(Post post){
+
+    public PostStorageimpl(int length){
+        posts = new ArrayList<>(length);
+    }
+
+    public PostStorageimpl(){
+        posts=new ArrayList<>();
+    }
+
+
+    public void addPost(Post post) {
         posts.add(post);
     }
 
     @Override
-    public T getPostByTitle(String title) throws PostNotFoundException {
+    public Post getPostByTitle(String title) throws PostNotFoundException {
         for (int i = 0; i < posts.size(); i++) {
             if (posts.get(i).equals(title)) {
-                return (T) posts.get(i);
+                return posts.get(i);
             }
 
         }

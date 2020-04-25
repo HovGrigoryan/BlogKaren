@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class BlogMain <T> implements Commands <T>  {
-    private static final PostStorageimpl<Post> POST_STORAGE = new PostStorageimpl<>();
+    private static final PostStorageimpl POST_STORAGE = new PostStorageimpl();
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final UserStorageimpl<User> USER_STORAGE = new UserStorageimpl<>();
+    private static final UserStorageimpl USER_STORAGE = new UserStorageimpl();
 
 
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class BlogMain <T> implements Commands <T>  {
         try {
             String userlog = SCANNER.nextLine();
             String userlg[] = userlog.split(",");
-            User currenUser =  USER_STORAGE.getUserByEmailandByPassword(userlg[0], userlg[1]);
+            User currenUser = USER_STORAGE.getUserByEmailandByPassword(userlg[0], userlg[1]);
             boolean isRun = true;
             while (isRun) {
                 POST_STORAGE.printAllposts();
@@ -81,9 +81,9 @@ public class BlogMain <T> implements Commands <T>  {
                 }
             }
         } catch (UserNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("please Register");
-            login();
+            register();
         }
 
     }
@@ -104,6 +104,7 @@ public class BlogMain <T> implements Commands <T>  {
         } catch (UserNotFoundException e) {
             USER_STORAGE.addUser(user);
             System.out.println("Thank you!");
+
         }
     }
 

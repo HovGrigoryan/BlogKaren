@@ -6,7 +6,7 @@ import blog.model.User;
 public interface UserStorage<T> {
     User getUserByEmailandByPassword(String email, String password) throws UserNotFoundException;
 
-    void addUser(T user);
+    void addUser(User user);
 
 
 

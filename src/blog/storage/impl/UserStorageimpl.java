@@ -4,16 +4,24 @@ import blog.exception.UserNotFoundException;
 import blog.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserStorageimpl<T> implements UserStorage<T> {
+public class UserStorageimpl implements UserStorage {
 
-    ArrayList<User> users = new ArrayList<>();
+    private List<User> users;
+
+    public UserStorageimpl(int length) {
+        users = new ArrayList<>(length);
+    }
+
+    public UserStorageimpl() {
+        users = new ArrayList<>();
+    }
 
 
-    public void addUser(T user) {
-        for (int i = 0; i < users.size(); i++) {
-            users.add((User) user);
-        }
+    public void addUser(User user) {
+            users.add(user);
+
     }
 
     @Override
@@ -27,10 +35,10 @@ public class UserStorageimpl<T> implements UserStorage<T> {
     }
 
 
-    public T getUserByEmail(String email) throws UserNotFoundException {
+    public User getUserByEmail(String email) throws UserNotFoundException {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getEmail().equals(email)) {
-                return (T) users.get(i);
+                return users.get(i);
             }
         }
         throw new UserNotFoundException(String.format("user with %s email does not exist", email));
