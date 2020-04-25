@@ -4,30 +4,21 @@ import blog.exception.PostNotFoundException;
 import blog.model.Post;
 import blog.storage.PostStorage;
 
-public class PostStorageimpl implements PostStorage {
+import java.util.ArrayList;
 
-    private Post posts[] = new Post[15];
-    private int size = 0;
+public class PostStorageimpl<T> implements PostStorage<T> {
 
-    @Override
-    public void add(Post post) {
-        if (posts.length == size) {
-            extend();
-        }
-        posts[size++] = post;
-    }
+    ArrayList<Post> posts = new ArrayList<>();
 
-    private void extend() {
-        Post tmp[] = new Post[posts.length + 10];
-        System.arraycopy(posts, 0, tmp, 0, posts.length);
-        posts = tmp;
+    public void addPost(Post post){
+        posts.add(post);
     }
 
     @Override
-    public Post getPostByTitel(String title) throws PostNotFoundException {
-        for (int i = 0; i < size; i++) {
-            if (posts[i].getTitle().equals(title)) {
-                return posts[i];
+    public T getPostByTitle(String title) throws PostNotFoundException {
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).equals(title)) {
+                return (T) posts.get(i);
             }
 
         }
@@ -36,9 +27,10 @@ public class PostStorageimpl implements PostStorage {
 
     @Override
     public void searchPostsByKeyword(String keyword) {
-        for (int i = 0; i < size; i++) {
-            if (posts[i].getTitle().contains(keyword) || posts[i].getText().contains(keyword))
-                System.out.println(posts[i]);
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).getTitle().contains(keyword) || posts.get(i).getText().contains(keyword)) {
+                System.out.println(posts.get(i));
+            }
         }
 
     }
@@ -46,9 +38,9 @@ public class PostStorageimpl implements PostStorage {
 
     @Override
     public void printPostsByCategory(String category) {
-        for (int i = 0; i < size; i++) {
-            if (category.equals(posts[i].getCategory())) {
-                System.out.println(posts[i]);
+        for (int i = 0; i < posts.size(); i++) {
+            if (category.equals(posts.get(i).getCategory())) {
+                System.out.println(posts.get(i));
             }
         }
     }
@@ -56,11 +48,11 @@ public class PostStorageimpl implements PostStorage {
     @Override
     public void printAllposts() {
         System.out.println("-------------");
-        for (int i = 0; i < size; i++) {
-            System.out.println(posts[i]);
+        for (int i = 0; i < posts.size(); i++) {
+            System.out.println(posts.get(i));
 
         }
         System.out.println("----------------------------");
 
-        }
+    }
 }

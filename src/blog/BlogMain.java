@@ -7,13 +7,15 @@ import blog.storage.PostStorage;
 import blog.storage.impl.PostStorageimpl;
 import blog.storage.impl.UserStorageimpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-public class BlogMain implements Commands {
-    private static final PostStorage POST_STORAGE = new PostStorageimpl();
+public class BlogMain <T> implements Commands <T>  {
+    private static final PostStorageimpl<Post> POST_STORAGE = new PostStorageimpl<>();
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final UserStorageimpl USER_STORAGE = new UserStorageimpl();
+    private static final UserStorageimpl<User> USER_STORAGE = new UserStorageimpl<>();
+
 
     public static void main(String[] args) {
         boolean isRun = true;
@@ -50,12 +52,12 @@ public class BlogMain implements Commands {
 
     }
 
-    private static void login()  {
+    private static void login() {
         System.out.println("Please Input email,password");
         try {
             String userlog = SCANNER.nextLine();
             String userlg[] = userlog.split(",");
-            User currenUser = USER_STORAGE.getUserByEmailandByPassword(userlg[0], userlg[1]);
+            User currenUser =  USER_STORAGE.getUserByEmailandByPassword(userlg[0], userlg[1]);
             boolean isRun = true;
             while (isRun) {
                 POST_STORAGE.printAllposts();
@@ -85,7 +87,6 @@ public class BlogMain implements Commands {
         }
 
     }
-
 
 
     private static void register() {
@@ -128,7 +129,7 @@ public class BlogMain implements Commands {
             post.setText(postDate[1]);
             post.setCategory(postDate[2]);
             post.setCreatedDate(new Date());
-            POST_STORAGE.add(post);
+            POST_STORAGE.addPost(post);
             System.out.println("post added!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Invalid data");

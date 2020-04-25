@@ -1,6 +1,6 @@
 package blog;
 
-public interface Commands {
+public interface Commands <T> {
 
 
     int EXIT = 0;

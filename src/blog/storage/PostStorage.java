@@ -3,12 +3,13 @@ package blog.storage;
 import blog.exception.PostNotFoundException;
 import blog.model.Post;
 
-public interface PostStorage {
-    void add(Post post);
+public interface PostStorage<T> {
 
-    Post getPostByTitel(String title) throws PostNotFoundException;
+    void addPost(Post post);
 
-    void searchPostsByKeyword(String keyword);
+    T getPostByTitle(String title) throws PostNotFoundException;
+
+    void searchPostsByKeyword(String  keyword);
 
     void printAllposts();
 
