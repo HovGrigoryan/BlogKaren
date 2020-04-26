@@ -3,32 +3,23 @@ package blog.storage.impl;
 import blog.exception.UserNotFoundException;
 import blog.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UserStorageimpl implements UserStorage {
 
-    private List<User> users;
-
-    public UserStorageimpl(int length) {
-        users = new ArrayList<>(length);
-    }
-
-    public UserStorageimpl() {
-        users = new ArrayList<>();
-    }
+    private Map<String, User> users = new HashMap();
 
 
     public void addUser(User user) {
-            users.add(user);
+        users.put(user.getEmail(), user);
 
     }
 
     @Override
     public User getUserByEmailandByPassword(String email, String password) throws UserNotFoundException {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(email) || users.get(i).getPassword().equals(password)) {
-                return users.get(i);
+        for (User user : users.values()) {
+            if (user.getEmail().equals(email) || user.getPassword().equals(password)) {
+                return user;
             }
         }
         throw new UserNotFoundException(String.format("User with %s and $s not found", email, password));
@@ -36,12 +27,17 @@ public class UserStorageimpl implements UserStorage {
 
 
     public User getUserByEmail(String email) throws UserNotFoundException {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(email)) {
-                return users.get(i);
+        for (User user : users.values()) {
+            if (user.getEmail().equals(email)) {
+                return user;
             }
         }
         throw new UserNotFoundException(String.format("user with %s email does not exist", email));
     }
-
 }
+
+
+
+
+
+

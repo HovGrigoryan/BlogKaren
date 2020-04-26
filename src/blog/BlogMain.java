@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-public class BlogMain <T> implements Commands <T>  {
+public class BlogMain<T> implements Commands<T> {
     private static final PostStorageimpl POST_STORAGE = new PostStorageimpl();
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final UserStorageimpl USER_STORAGE = new UserStorageimpl();
