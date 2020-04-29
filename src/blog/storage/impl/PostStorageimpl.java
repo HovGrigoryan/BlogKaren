@@ -49,9 +49,9 @@ public class PostStorageimpl implements PostStorage {
 
     @Override
     public void printPostsByCategory(String category) {
-        for (int i = 0; i < posts.size(); i++) {
-            if (category.equals(posts.get(i).getCategory())) {
-                System.out.println(posts.get(i));
+        for (Post post : posts) {
+            if (post.getCategory().equals(category)){
+                System.out.println(post);
             }
         }
     }
