@@ -77,7 +77,6 @@ public class BlogMain<T> implements Commands<T> {
                         addpost();
                     default:
                         System.out.println("Invalid Command,please try again");
-
                 }
             }
         } catch (UserNotFoundException e) {

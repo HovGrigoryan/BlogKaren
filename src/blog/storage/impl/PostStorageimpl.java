@@ -16,7 +16,7 @@ public class PostStorageimpl implements PostStorage {
         posts = new ArrayList<>(length);
     }
 
-    public PostStorageimpl(){
+    public PostStorageimpl()    {
         posts=new ArrayList<>();
     }
 
